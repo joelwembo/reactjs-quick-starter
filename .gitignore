@@ -1,3 +1,14 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build output
+dist/
+build/
+.vite/
+
 # Build and Release Folders
 bin-debug/
 bin-release/
@@ -6,12 +17,27 @@ bin-release/
 
 # Other files and folders
 .settings/
+.DS_Store
+*.log
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Executables
 *.swf
 *.air
 *.ipa
 *.apk
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
