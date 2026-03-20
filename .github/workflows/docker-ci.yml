@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: ["main"]
 
+permissions:
+  contents: read
+
 env:
   IMAGE_NAME: reactjs-quick-starter:latest
 
@@ -13,6 +16,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.image-tag.outputs.tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,7 +29,7 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build app
         run: npm run build
@@ -39,6 +44,10 @@ jobs:
           push: false
           tags: ${{ env.IMAGE_NAME }}
 
+      - name: Record image tag
+        id: image-tag
+        run: echo "tag=${IMAGE_NAME}" >> "$GITHUB_OUTPUT"
+
   deploy:
     name: Deploy (simulated)
     runs-on: ubuntu-latest
@@ -46,8 +55,8 @@ jobs:
     steps:
       - name: Simulate deployment
         run: |
-          echo "Deploying image $IMAGE_NAME to simulated environment..."
-          echo "No registry push performed."
+          echo "Deploying image ${{ needs.build.outputs.image-tag }} to simulated environment..."
+          echo "No registry push performed because this is a simulation."
 
   summary:
     name: Summary
@@ -58,7 +67,7 @@ jobs:
     steps:
       - name: Pipeline summary
         run: |
-          echo "Image: $IMAGE_NAME"
-          echo "Build: completed"
+          echo "Image: ${{ needs.build.outputs.image-tag }}"
+          echo "Build: completed (image built locally during CI job)"
           echo "Deploy: simulated and completed"
           echo "Summary stage finished."
