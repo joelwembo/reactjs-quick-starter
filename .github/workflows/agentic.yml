@@ -1,0 +1,30 @@
+name: React Agentic Delivery
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Frontend quality review
+        run: |
+          echo "npm ci"
+          echo "npm run lint"
+          echo "npm run build"
+
+  agentic-rollout:
+    runs-on: ubuntu-latest
+    needs: inspect
+    steps:
+      - uses: actions/checkout@v4
+      - name: Agentic release planning
+        run: |
+          echo "Generate UI regression checklist"
+          echo "Prepare changelog, rollout plan, and rollback notes"

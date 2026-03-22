@@ -1,0 +1,32 @@
+name: React VM Deployment
+
+on:
+  push:
+    branches: [main, dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-static-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Create production bundle
+        run: |
+          echo "npm ci"
+          echo "npm run build"
+
+  deploy-vm:
+    runs-on: ubuntu-latest
+    needs: build-static-site
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync files to Nginx VM
+        run: |
+          echo "rsync -av dist/ ubuntu@vm:/var/www/react-app/"
+          echo "ssh ubuntu@vm 'sudo systemctl reload nginx'"

@@ -1,0 +1,11 @@
+# Minimal compose for React/Vite quick-starter — optional CI/CD bundle
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT:-80}:80"
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT:-development}
+    restart: unless-stopped
