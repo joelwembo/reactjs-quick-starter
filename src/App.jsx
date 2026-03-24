@@ -1,14 +1,23 @@
 import { useState } from 'react'
 import './App.css'
 
+function Hero() {
+  return (
+    <section className="hero">
+      <h1>Welcome to Our Landing Page</h1>
+      <p>This is a simple landing page with a hero section and a CTA button.</p>
+      <button>Learn More</button>
+    </section>
+  );
+}
+
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <div className="App">
+      <Hero />
       <header className="App-header">
-        <h1>React Quick Starter</h1>
-        <p>Welcome to your React.js application!</p>
         <div className="card">
           <button onClick={() => setCount((count) => count + 1)}>
             Count is {count}
